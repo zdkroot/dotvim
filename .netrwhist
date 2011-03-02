@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/usr/share/vim'
+let g:netrw_dirhist_2='/host'
+let g:netrw_dirhist_3='/host/Program Files (x86)'
+let g:netrw_dirhist_4='/host/Program Files (x86)/Vim'
