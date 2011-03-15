@@ -95,3 +95,6 @@ nmap <silent> ,cd :lcd %:h<CR>
 " This is useful when you edit a file in a directory that doesn't
 " (yet) exist
 nmap <silent> ,md :!mkdir -p %:p:h<CR>
+
+" Use space to remove annoying search highlighting
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
