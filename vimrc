@@ -42,9 +42,10 @@ colorscheme xoria256
 " Allow backspacing over indent, eol and start of insert
 set bs=2
 
-" Tabstops are 4 spaces
-set tabstop=4
-set shiftwidth=4
+" Tabstops are 4 spaces, replace tabs with spaces.
+set ts=4
+set sts=4
+set sw=4
 set expandtab
 
 " Set the search scan so that it ignores case when the search is all lower
@@ -53,9 +54,15 @@ set ignorecase
 set smartcase
 
 " Set filetype stuff to on
-filetype on
-filetype plugin on
-filetype indent on
+if has("autocmd")
+    filetype on
+    filetype plugin on
+    filetype indent on
+    set ofu=syntaxcomplete#Complete
+
+    " Language syntax fixes
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+endif
 
 " Make the command-line completion better
 set wildmenu
@@ -98,3 +105,42 @@ nmap <silent> ,md :!mkdir -p %:p:h<CR>
 
 " Use space to remove annoying search highlighting
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+" Toggle vim term pasting fix
+nnoremap <F6> :set invpaste paste?<Enter>
+imap <F6> <C-O><F6>
+set pastetoggle=<F6>
+
+" Confim dialog
+set confirm
+
+" Turn off annoying gui options
+set guioptions=ac
+
+
+" For when you forget to sudo.. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
+
+"Plugins {
+
+    " Supertab {
+        let g:SuperTabDefaultCompletionType = "context"
+        let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+    " }
+
+    " Zen Coding {
+        let g:user_zen_expandabbr_key = '<c-l>'
+        let g:use_zen_complete_tag = 1
+    " }
+    "
+    " DelimitMate
+        let delimitMate_expand_cr = 1
+    " }
+
+" }
+
+" Keybinds
+
+map <C-s> :w<CR>
+imap <C-;> <C-G>g
+
