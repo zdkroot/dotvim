@@ -47,6 +47,8 @@ set ts=4
 set sts=4
 set sw=4
 set expandtab
+set autoindent
+set smartindent
 
 " Set the search scan so that it ignores case when the search is all lower
 " case but recognizes uppercase if it's specified
@@ -70,6 +72,52 @@ set wildmenu
 " These things start comment lines
 set comments=sl:/*,mb:\ *,ex:\ */,O://,b:#,:%,:XCOMM,n:>,fb:-
 
+" Confim dialog
+set confirm
+
+" Turn off annoying gui options
+set guioptions=ac
+
+
+" For when you forget to sudo.. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
+
+"Plugins {
+
+    " Supertab {
+        let g:SuperTabDefaultCompletionType = "keyword"
+        let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+    " }
+
+    " Zen Coding {
+        let g:user_zen_expandabbr_key = '<a-w>'
+        let g:use_zen_complete_tag = 1
+        let g:user_zen_next_key = '<a-l>'
+        let g:user_zen_prev_key = '<a-h>'
+        let g:user_zen_settings = {
+            \  'indentation' : '    '
+        \}
+    " }
+    "
+    " DelimitMate
+        let delimitMate_expand_cr = 1
+    " }
+
+" }
+
+" Custom functions ***********
+
+" Vertical Split Buffer Function
+function VerticalSplitBuffer(buffer)
+    execute "vert belowright sb" a:buffer 
+endfunction
+
+"/ Keybinds ***********
+
+"map <C-s> :w<CR>
+" Vertical Split Buffer Mapping
+command -nargs=1 Vbuff call VerticalSplitBuffer(<f-args>)
+
 " Edit the vimrc file
 nmap <silent> ,ev :e $MYVIMRC<CR>
 nmap <silent> ,sv :so $MYVIMRC<CR>
@@ -84,7 +132,7 @@ nnoremap <F7> :GundoToggle<CR>
 map ,sp :e ftp://ftp.sherlockphoto.com/
 
 " get rid of the silly characters in window separators
-set fillchars=""
+
 
 " Enable search highlighting
 set hlsearch
@@ -106,41 +154,18 @@ nmap <silent> ,md :!mkdir -p %:p:h<CR>
 " Use space to remove annoying search highlighting
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
-" Toggle vim term pasting fix
-nnoremap <F6> :set invpaste paste?<Enter>
-imap <F6> <C-O><F6>
-set pastetoggle=<F6>
+set pt=<F6>
 
-" Confim dialog
-set confirm
+" fix meta-keys which generate <Esc>a .. <Esc>z
+"for i in range(65,90) + range(97,122)
+"  let c = nr2char(i)
+"  exec 'map \e'.c." <M-".c.">"
+"  exec 'map! \e'.c." <M-".c.">"
+"endfor
 
-" Turn off annoying gui options
-set guioptions=ac
-
-
-" For when you forget to sudo.. Really Write the file.
-cmap w!! w !sudo tee % >/dev/null
-
-"Plugins {
-
-    " Supertab {
-        let g:SuperTabDefaultCompletionType = "context"
-        let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-    " }
-
-    " Zen Coding {
-        let g:user_zen_expandabbr_key = '<c-l>'
-        let g:use_zen_complete_tag = 1
-    " }
-    "
-    " DelimitMate
-        let delimitMate_expand_cr = 1
-    " }
-
-" }
-
-" Keybinds
-
-map <C-s> :w<CR>
-imap <C-;> <C-G>g
-
+set <M-h>=è
+imap h <M-h>
+set <M-l>=ì
+imap l <M-l>
+set <M-w>=÷
+imap w <M-w>
