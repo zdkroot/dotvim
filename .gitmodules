@@ -37,6 +37,3 @@
 [submodule "bundle/intelligenttags/plugin"]
 	path = bundle/intelligenttags/plugin
 	url = git://github.com/bahejl/Intelligent_Tags.git
-[submodule "delimitMate"]
-	path = delimitMate
-	url = git://github.com/Raimondi/delimitMate.git
