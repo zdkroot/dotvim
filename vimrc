@@ -11,6 +11,9 @@ cmap w!! w !sudo tee % >/dev/null
 " Expand the history
 set history=100
 
+" Sets '+' to be the be the copy to clipboard register. +yy, +dd, etc.
+set clipboard=unnamedplus
+
 " Sets timeout length
 set timeoutlen=500
 
