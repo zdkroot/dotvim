@@ -48,7 +48,8 @@ set number
 
 " Display syntax highlighting and colorscheme
 syntax on
-colorscheme xoria256
+set t_Co=256
+colorscheme slate
 
 " Allow backspacing over indent, eol and start of insert
 set bs=2
@@ -111,9 +112,6 @@ inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
  " Limit popup menu height
  set pumheight=15
 
-"Be quicker - replace : with a space
-nmap <space> :
-
 " Map Ctrl-S to save
 map <c-s> :w<CR>
 
@@ -127,6 +125,7 @@ set comments=sl:/*,mb:\ *,ex:\ */,O://,b:#,:%,:XCOMM,n:>,fb:-
 set confirm
 
 " Turn off annoying gui options
+set guifont=Inconsolata\ 12
 set guioptions=ac
 
 
@@ -156,11 +155,11 @@ cmap w!! w !sudo tee % >/dev/null
     " }
 
     " NerdTree {
-        map <F6> :NERDTreeToggle<CR>
+        map <F5> :NERDTreeToggle<CR>
     " }
     
     " Tagslist {
-        map <F4> :TlistToggle<CR>
+        map <F6> :TlistToggle<CR>
     " }
 " }
 
@@ -185,7 +184,7 @@ command -nargs=1 Vbuff call VerticalSplitBuffer(<f-args>)
 nmap <silent> ,ev :e $MYVIMRC<CR>
 
 " Gundo mapping
-nnoremap <F7> :GundoToggle<CR>
+nnoremap <F9> :GundoToggle<CR>
 
 " FTP Mappings
 map ,sp :e ftp://ftp.sherlockphoto.com/
@@ -210,7 +209,7 @@ nmap <silent> ,md :!mkdir -p %:p:h<CR>
 " Use space to remove annoying search highlighting
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
-set pt=<F6>
+set pt=<F7>
 
 " fix meta-keys which generate <Esc>a .. <Esc>z
 "set <M-h>=è
@@ -231,3 +230,38 @@ iab lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm
 iab llorem Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 " :set tags+=~/.vim/tags
 nmap <silent>:W :w
+nmap <silent>:Q :q
+" Set personal snippet folder location:
+"
+let g:xptemplate_snippet_folders=['$HOME/.vim/xptemplate_personal_snippets']
+"
+" Turn off automatic closing of quotes and braces:
+"
+let g:xptemplate_brace_complete = 0
+"
+" Snippet triggering key:
+let g:xptemplate_key = '<F1>'
+"
+" Open the pop-up menu:
+let g:xptemplate_key_pum_only = '<Leader><Tab>'
+"
+" Clear current placeholder and jump to the next:
+imap <C-d> <Tab>
+let g:xptemplate_nav_cancel = '<C-d>'
+"
+" Move to the next placeholder in a snippet:
+let g:xptemplate_nav_next = '<Tab>'
+"
+" Go to the end of the current placeholder and in to insert mode:
+"
+" <C-_> is actually CONTROL-/ on my keyboard.
+let g:xptemplate_to_right = '<C-_>'
+"
+" Move cursor back to last placeholder:
+let g:xptemplate_goback = '<C-g>'
+"
+" Use TAB/S-TAB to navigate through the pop-up menu:
+let g:xptemplate_pum_tab_nav = 1
+"
+" Reload xptemplate snippets without quitting vim.
+nmap <A-F1> :XPTreload<CR>
