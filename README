@@ -1,6 +1,6 @@
 Installation:
 
-	git clone https://zdkroot@github.com/zdkama/dotvim.git ~/.vim
+	git clone https://zdkroot@github.com/zdkroot/dotvim.git ~/.vim
 
 Create symlinks:
 
