@@ -34,3 +34,6 @@
 [submodule "bundle/Headlights"]
 	path = bundle/Headlights
 	url = https://github.com/mbadran/headlights.git
+[submodule "bundle/matchit"]
+	path = bundle/matchit
+	url = https://github.com/vim-scripts/matchit.zip.git

@@ -1,28 +1,56 @@
+"       Zack Kismarton          |
+"           .vimrc v0.04        |
+" Tue Apr  2 12:20:28 EDT 2013  |
+"                               |
+" Changelog:                    |
+"   turned off relative number  |
+"   adding binding to show      |
+"       invisibles              |
+"   fixed compile binding       |
+" ------------------------------
+
+
 " Pathogen calls
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-set shell=c:/windows/system32/windowspowershell/v1.0/powershell.exe
-" Linux only
-    " Sets '+' to be the be the copy to clipboard register. +yy, +dd, etc.
-    " set clipboard=unnamedplus
-
-    " Make the command-line completion better
-    " set wildmenu
-
-    " Make it easier to complete buffers, open files, etc...
-    " set wildignorecase
-    "
-    " Autocompletion menu
-     set wildmode=list:longest
-
-
-
-" Start in home folder always
-cd ~
-
 " Don't support Vi
 set nocompatible
+
+" ---UNIX ONLY---
+if has("unix")
+
+    " Inserts the date below the cursor
+    nmap <F8> :r!date<Cr>kJ
+
+    " Make the command-line completion better
+    set wildmenu
+
+    " Make it easier to complete buffers, open files, etc...
+    " set wildignorecase --not a real command?
+
+    " Autocompletion menu
+    set wildmode=list:longest
+
+
+    nmap <C-F9> :!gcc -std=c99 -o %:r %<CR>
+    nmap <A-F9> :!%:p:r<CR>
+
+endif
+" ---END UNIX ONLY---
+
+" Sets '+' to be the be the copy to clipboard register. +y, +dd, etc.
+" set clipboard=unnamedplus
+
+" Start in home folder always
+" cd ~
+nnoremap <Leader>sh :sh<CR>
+
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
 
 " set the forward slash to be the slash of note. Backslashes suck
 set shellslash
@@ -36,7 +64,7 @@ set timeoutlen=500
 " Turn off visual or audio bell
 set noeb vb t_vb=
 
-" Always display statusline, make it 2 lines high and set options
+" Always display 2 line statusline, set options
 set ls=2
 set ch=2
 set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
@@ -48,7 +76,6 @@ set wrapscan
 set hlsearch
 
 set incsearch
-
 
 " Keep cursor 8 lines from the top or bottom
 set scrolloff=8
@@ -69,12 +96,12 @@ set showcmd
 set hidden
 
 " Show line numbers
-set relativenumber
+set number
 
 " Display syntax highlighting and colorscheme
 syntax on
 set t_Co=256
-colorscheme rdark
+colorscheme blackboard
 
 " Allow backspacing over indent, eol and start of insert
 set bs=2
@@ -134,10 +161,9 @@ set showfulltag
 set guioptions=acg
 
 " Linux and windows font options.
-" set guifont=Inconsolata\ 11         
-set guifont=Consolas:h11:cANSI
+" set guifont=Consolas:h11:cANSI
 
-set tw=80
+set tw=110
 set fo=cqt
 set wm=0
 
@@ -200,6 +226,7 @@ map <c-s> :w<CR>
 
 " Save time parsing through buffers
 nmap ,bn :bn<CR>
+nmap ,bv :bp<CR>
 
 nmap <silent> <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 
