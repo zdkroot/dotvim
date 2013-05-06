@@ -9,7 +9,6 @@
 "   fixed compile binding       |
 " ------------------------------
 
-
 " Pathogen calls
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
@@ -33,7 +32,6 @@ if has("unix")
     set wildmode=list:longest
 
 
-    nmap <C-F9> :!gcc -std=c99 -o %:r %<CR>
     nmap <A-F9> :!%:p:r<CR>
 
 endif
@@ -138,6 +136,8 @@ if has("autocmd")
 
     " Language syntax fixes
     autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType c setlocal nmap <C-F9> :!gcc -std=c99 -o %:r %<CR>
+    autocmd FileType cpp setlocal nmap <C-F9> :!g++ -o %:r %<CR>
 endif
 
 " get rid of the silly characters in separators
