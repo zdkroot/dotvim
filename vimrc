@@ -1,108 +1,116 @@
-"       Zack Kismarton          |
-"           .vimrc v0.04        |
-" Tue Apr  2 12:20:28 EDT 2013  |
+" Zack Kismarton                |
+" .vimrc v0.10                  |
+" Tue Mar 18 15:59:10 EDT 2014  |
 "                               |
 " Changelog:                    |
-"   turned off relative number  |
-"   adding binding to show      |
-"       invisibles              |
-"   fixed compile binding       |
+" Re-organized!
+" Solarized colorscheme         |
+" Switched pathogen for vundle  |
+" Turned off relative number    |
+" Adding binding to show        |
+" Invisibles                    |
+" Fixed compile binding         |
 " ------------------------------
-
-" Pathogen calls
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 
 " Don't support Vi
 set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
+Bundle 'sjl/gundo.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tomasr/molokai'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-speeddating'
+Bundle 'majutsushi/tagbar'
+Bundle 'SirVer/UltiSnips'
+Bundle 'honza/vim-snippets'
+Bundle 'tobyS/pdv'
+Bundle 'tobyS/vmustache'
+Bundle 'Shougo/neocomplcache.vim'
+Bundle 'JazzCore/neocomplcache-ultisnips'
+Bundle 'lfilho/cosco.vim'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'joonty/vdebug'
+Bundle 'Align'
+Bundle 'closetag.vim'
+Bundle 'bufkill.vim'
 
 " ---UNIX ONLY---
 if has("unix")
 
-    " Inserts the date below the cursor
-    nmap <F8> :r!date<Cr>kJ
-
-    " Make the command-line completion better
-    set wildmenu
-
-    " Make it easier to complete buffers, open files, etc...
-    " set wildignorecase --not a real command?
-
-    " Autocompletion menu
-    set wildmode=list:longest
-
-
-    nmap <A-F9> :!%:p:r<CR>
+set wildmenu " Make the command-line completion better
+set wildmode=longest:full,full " Autocompletion menu
+set wildignorecase " Make it easier to complete buffers, open files, etc...
+nmap <F8> :r!date<Cr> " Inserts the date below the cursor
+nmap <A-F9> :!%:p:r<CR> " Run the current file in the shell
+" nmap <c-t> :r!mysql -uroot -p -e 'SELECT DISTINCT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "users_residents_pg"'<Cr>
 
 endif
 " ---END UNIX ONLY---
 
-" Sets '+' to be the be the copy to clipboard register. +y, +dd, etc.
-" set clipboard=unnamedplus
+" ---AUTOCMD---
+if has("autocmd")
+filetype on " Set filetype stuff to on
+filetype plugin on
+filetype indent on
 
-" Start in home folder always
-" cd ~
-nnoremap <Leader>sh :sh<CR>
+" Language syntax fixes
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType cpp nmap <C-F9> :!clang -x c++ -arch x86_64 -std=gnu++11 -stdlib=libc++ -o %:r %<CR>
+    " autocmd FileType cpp nmap <C-F9> :!g++ -o %:r %<CR>
+    autocmd FileType c nmap <C-F9> :!gcc -std=c99 -o %:r %<CR>
+    autocmd FileType javascript,css,php nmap <silent> <leader>; :call cosco#commaOrSemiColon()<CR>
+    autocmd FileType javascript,css,php inoremap <silent> <leader>; <ESC>:call cosco#commaOrSemiColon()"<CR>a
+    au BufNewFile,BufRead *.mh set ft=php
+    autocmd FileType php setlocal ts=3 sts=3 sw=3 noexpandtab
+endif
+" --- END AUTOCMD ---
 
-" Shortcut to rapidly toggle `set list`
-nmap <leader>l :set list!<CR>
+" Settings
+" ========================================
 
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
-
-" set the forward slash to be the slash of note. Backslashes suck
-set shellslash
-
-" Expand the history
-set history=100
-
-" Sets timeout length
-set timeoutlen=500
-
-" Turn off visual or audio bell
-set noeb vb t_vb=
-
-" Always display 2 line statusline, set options
-set ls=2
-set ch=2
-set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
-
-" Let search wrap around document
-set wrapscan
-
-" Enable search highlighting
-set hlsearch
-
+" set clipboard=unnamedplus " Sets '+' to be the be the copy to clipboard register. +y, +dd, etc.
+set listchars=tab:▸\ ,eol:¬ " Use the same symbols as TextMate for tabstops and EOLs
+set shellslash " set the forward slash to be the slash of note. Backslashes suck
+set history=100 " Expand the history
+set timeoutlen=500 " Sets timeout length
+set noeb vb t_vb= " Turn off visual or audio bell
+set wrapscan " Let search wrap around document
+set hlsearch " Enable search highlighting
+set ignorecase " Set the search scan so that it ignores case when the search is all lower case but recognizes uppercase if it's specified
+set scrolloff=8 " Keep cursor 8 lines from the top or bottom
+set virtualedit=all " Allow cursor movement through empty space
+set synmaxcol=2048 " Set max columns
+set showmode " Shows what mode I am currently in
+set fillchars = "" " get rid of the silly characters in separators
+set showfulltag " When completing by tag, show the whole tag, not just the function name
+set pumheight=15 " Limit popup menu height
+set number " Show line numbers
+set bs=2 " Allow backspacing over indent, eol and start of insert
+set comments=sl:/*,mb:\ *,ex:\ */,O://,b:#,:%,:XCOMM,n:>,fb:- " These things start comment lines
+set guioptions=acg " Turn off annoying gui options
+set tw=110 " Textwidth
+set hidden
 set incsearch
-
-" Keep cursor 8 lines from the top or bottom
-set scrolloff=8
-
-" Allow cursor movement through empty space
-set virtualedit=all
- 
+set smartcase
 set cpoptions=cesB$
 set complete=.,w,i,b,t
-
-" Set max columns
-set synmaxcol=2048
-
-" Shows what mode I am currently in
-set showmode
-
-set showcmd
-set hidden
-
-" Show line numbers
-set number
-
-" Display syntax highlighting and colorscheme
-syntax on
-set t_Co=256
-colorscheme blackboard
-
-" Allow backspacing over indent, eol and start of insert
-set bs=2
+set nobackup
+set noswapfile
+set fo=cqt
+set wm=0
 
 " Tabstops are 4 spaces, replace tabs with spaces.
 set ts=4
@@ -112,186 +120,98 @@ set expandtab
 set autoindent
 set smartindent
 set copyindent
+set nowrap " Default to nowrap
+set tags=./tags;/
 
-" Stop Vim making back up files
-set nobackup
-set noswapfile
+" Disabled for powerline
+" set ls=2
+" set ch=2
+" set showcmd
+" set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B] " Always display 2 line statusline, set options
 
+" Display syntax highlighting and colorscheme
+syntax on
+set t_Co=256
+set background=dark
+colorscheme solarized
+
+" Binds
+" ========================================
 let mapleader = ","
-
-" Make horizontal scrolling easier
-nmap <silent> <C-o> 10zl
-nmap <silent> <C-i> 10zh
-
-" Set the search scan so that it ignores case when the search is all lower
-" case but recognizes uppercase if it's specified
-set ignorecase
-set smartcase
-
-" Set filetype stuff to on
-if has("autocmd")
-    filetype on
-    filetype plugin on
-    filetype indent on
-
-    " Language syntax fixes
-    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-    autocmd FileType c setlocal nmap <C-F9> :!gcc -std=c99 -o %:r %<CR>
-    autocmd FileType cpp setlocal nmap <C-F9> :!g++ -o %:r %<CR>
-endif
-
-" get rid of the silly characters in separators
-set fillchars = ""
-
-" When completing by tag, show the whole tag, not just the function name
-set showfulltag
-
-" set dictionary="/usr/dict/words"
-
- " Limit popup menu height
- set pumheight=15
-
-" These things start comment lines
-" set comments=sl:/*,mb:\ *,ex:\ */,O://,b:#,:%,:XCOMM,n:>,fb:-
-
-" Confim dialog
-" set confirm
-
-" Turn off annoying gui options
-set guioptions=acg
-
-" Linux and windows font options.
-" set guifont=Consolas:h11:cANSI
-
-set tw=110
-set fo=cqt
-set wm=0
-
-" set text wrapping toggles
-nmap <silent> ,ww :set invwrap<CR>:set wrap?<CR>
-
-" Default to nowrap
-set nowrap
-
-"Map escape key to jj -- much faster
-imap jj <esc>
-
-" For when you forget to sudo.. Really Write the file.
-cmap w!! w !sudo tee % >/dev/null
-
-" :set tags+=~/.vim/tags
+nmap <leader>l :set list!<CR> " Shortcut to rapidly toggle `set list` " Toggle invis characters
+nmap <silent> ,ww :set invwrap<CR>:set wrap?<CR> " Toggle text wrapping
+omap <silent> <leader>/ :Align => = \* /<CR>
+vmap <silent> <leader>/ :Align => = \* /<CR>
+omap <silent> // :TCommentBlock<CR>
+vmap <silent> // :TCommentBlock<CR>
+nmap <silent> // :TComment<CR>
+imap jj <esc> "Map escape key to jj -- much faster
+cmap w!! w !sudo tee % >/dev/null " For when you forget to sudo..
+nmap <silent> ,ev :e $MYVIMRC<CR> " Edit the vimrc file
+nmap <silent> ,sv :so $MYVIMRC<CR> " Source my vimrc
+nmap <silent> ,cd :lcd %:h<CR> " cd to the directory containing the file in the buffer
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR> " Use space to remove annoying search highlighting
+nmap <silent> ,p :set invpaste<CR>:set paste?<CR> " Toggle paste mode
+map <c-s> :w<CR> " Map Ctrl-S to save
+nmap <silent> ,md :!mkdir %:p:h<CR> " Make the directory that contains the file in the current buffer.
+" Lower my blood pressure
 nmap <silent>:W :w
 nmap <silent>:Q :q
-
-" Edit the vimrc file
-nmap <silent> ,ev :e $MYVIMRC<CR>
-nmap <silent> ,sv :so $MYVIMRC<CR>
-
-" Gundo mapping
-nnoremap <F9> :GundoToggle<CR>
-" Buffer commands
-noremap <silent> ,bd :bd<CR>
-
-" cd to the directory containing the file in the buffer
-nmap <silent> ,cd :lcd %:h<CR>
-
-" Make the directory that contains the file in the current buffer.
-" This is useful when you edit a file in a directory that doesn't
-" (yet) exist
-nmap <silent> ,md :!mkdir %:p:h<CR>
-
-" Use space to remove annoying search highlighting
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" Toggle paste mode
-nmap <silent> ,p :set invpaste<CR>:set paste?<CR>
-
 " easier window navigation
 nmap <c-h> <c-w>h
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
-
-" Doesn't work? Why commented out?
-" Fix meta-keys which generate <Esc>a .. <Esc>z
-"set <M-h>=è
-"imap h <M-h>
-"set <M-l>=ì
-"imap l <M-l>
-"set <M-w>=÷
-"imap w <M-w>
-
-" Map Ctrl-S to save
-map <c-s> :w<CR>
-
+" Make horizontal scrolling easier
+nmap <silent> <C-o> 10zl
+nmap <silent> <C-i> 10zh
 " Save time parsing through buffers
 nmap ,bn :bn<CR>
 nmap ,bv :bp<CR>
-
-nmap <silent> <F11> :call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
-
-" The following beast is something i didn't write... it will return the
-" syntax highlighting group that the current "thing" under the cursor
-" belongs to -- very useful for figuring out what to change as far as
-" syntax highlighting goes.
+" returns the syntax highlighting group that the current "thing" under the cursor belongs to
 nmap <silent> ,qq :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" Plugins
+" ========================================
 
+" Powerline
+let g:Powerline_symbols = 'fancy'
 
-" Plugins {
-
-" NerdTree {
-map <F5> :NERDTreeToggle<CR>
+" NerdTree
+nnoremap <silent> <leader>kb :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1
 
+" Ctrl-P
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:5,results:10'
 
-" Tagslist {
-map <F6> :TlistToggle<CR>
+" Tagbar
+nnoremap <silent> <leader>t :TagbarToggle<CR>
 
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets="<s-tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+" PDV
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <silent> <leader>d :call pdv#DocumentWithSnip()<CR>
 
+" Neocomplcache.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
-" XPT-Templates settings
-let g:xptemplate_brace_complete = 1
-"
-" Remove spaces between braces
-let g:xptemplate_vars = "SParg="
-"
-" Snippet triggering key:
-let g:xptemplate_key = '<Tab>'
-"
-" Open the pop-up menu:
-let g:xptemplate_key_pum_only = '<Leader><Tab>'
-"
-" Clear current placeholder and jump to the next:
-"imap <C-d> <Tab>
-let g:xptemplate_nav_cancel = '<C-d>'
-"
-" Move to the next placeholder in a snippet:
-let g:xptemplate_nav_next = '<Tab>'
-"
-" Go to the end of the current placeholder and in to insert mode:
-" <C-_> is actually CONTROL-/ on my keyboard.
-let g:xptemplate_to_right = '<C-_>'
-"
-" Move cursor back to last placeholder:
-let g:xptemplate_goback = '<C-g>'
-"
-" Use TAB/S-TAB to navigate through the pop-up menu:
-let g:xptemplate_pum_tab_nav = 1
-"
-" Reload xptemplate snippets without quitting vim.
-nmap <A-F1> :XPTreload<CR>
+" Gundo
+nnoremap <F9> :GundoToggle<CR>
 
+" Bufkill
+noremap <silent> ,bd :BD<CR>
 
-" http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
-"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-"  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-"inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-"  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-
-"helpeful abbreviations
+" Helpeful abbreviations
 iab lorem lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 iab llorem lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
