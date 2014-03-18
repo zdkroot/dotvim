@@ -1,10 +1,10 @@
-##Installation:##
+##Installation##
 `git clone https://zdkroot@github.com/zdkroot/dotvim.git ~/.vim`
 
-##On windows clone into vim's install dir - default is 'c:\program files\vim\vim73'##
+#####On windows clone into vim's install dir - default is 'c:\program files\vim\vim73'#####
 `git clone https://zdkroot@github.com/zdkroot/dotvim.git c:\program files\vim\vim73`
 
-#Create symlinks:#
+##Create symlinks##
 
 `ln -s ~/.vim/vimrc ~/.vimrc && ln -s ~/.vim/gvimrc ~/.gvimrc`
 	
